@@ -1,6 +1,5 @@
 package com.iamnsrt.training.backend.config;
 
-import org.hibernate.StatelessSession;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -30,7 +29,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().disable().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                .and().authorizeRequests().antMatchers("/user/register" , "/user/login").anonymous()
+                .and().authorizeRequests().antMatchers("/user/register", "/user/login").anonymous()
                 .anyRequest().authenticated();
     }
 }

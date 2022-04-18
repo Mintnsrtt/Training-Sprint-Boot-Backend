@@ -24,7 +24,25 @@ public class UserService {
     }
 
     public Optional<User> findByEmail(String email) {
+
         return repository.findByEmail(email);
+    }
+
+    public User updateName(String id, String name) throws BaseException{
+        Optional<User> opt = repository.findById(id);
+
+        if (opt.isEmpty()) {
+            throw UserException.notFound();
+        }
+
+        User user = opt.get();
+        user.setName(name);
+
+        return repository.save(user);
+    }
+
+    public void deleteById(String id) {
+        repository.deleteById(id);
     }
 
     public boolean matchPassword(String rawPassword, String encodePassword) {
