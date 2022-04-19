@@ -1,3 +1,5 @@
+
+
 package com.iamnsrt.training.backend.entity;
 
 import lombok.Data;
@@ -7,23 +9,19 @@ import javax.persistence.*;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
-@Entity(name = "m_social")
-public class Social extends BaseEntity{
+@Entity(name = "m_address")
+public class Address extends BaseEntity{
 
     @Column(length = 120)
-    private String facebook;
+    private String line1;
 
     @Column(length = 120)
-    private String line;
+    private String line2;
 
     @Column(length = 120)
-    private String instagram;
+    private String zipCode;
 
-    @Column(length = 120)
-    private String tiktok;
-
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "m_user_id", nullable = false)
     private User user;
-
 }
