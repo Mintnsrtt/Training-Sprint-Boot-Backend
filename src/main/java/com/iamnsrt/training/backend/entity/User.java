@@ -21,4 +21,7 @@ public class User extends BaseEntity{
 
     private String civilId;
 
+    @OneToOne(mappedBy = "user", orphanRemoval = true)
+    private Social social;
+
 }

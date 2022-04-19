@@ -1,7 +1,10 @@
 package com.iamnsrt.training.backend;
 
+import com.iamnsrt.training.backend.entity.Social;
 import com.iamnsrt.training.backend.entity.User;
 import com.iamnsrt.training.backend.exception.BaseException;
+import com.iamnsrt.training.backend.exception.UserException;
+import com.iamnsrt.training.backend.service.SocialService;
 import com.iamnsrt.training.backend.service.UserService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +19,9 @@ class TestUserService {
 	@Autowired
 	private UserService userService;
 
+	@Autowired
+	private SocialService socialService;
+
 	interface TestCreateData {
 		String email = "mumu@hamster.com";
 		String password = "12345678";
@@ -24,6 +30,13 @@ class TestUserService {
 
 	interface TestUpdateData {
 		String name = "Hamster";
+	}
+
+	interface SocialTestCreateData {
+		String facebook = "MuHamHamFacebook";
+		String line = "MuHamHamLine";
+		String instagram = "MuHamHamInstagram";
+		String tiktok = "MuHamHamTiktok";
 	}
 
 	@Order(1)
@@ -64,6 +77,30 @@ class TestUserService {
 	}
 
 	@Order(3)
+	@Test
+	void testCreateSocial() throws UserException {
+		Optional<User> opt = userService.findByEmail(TestCreateData.email);
+		Assertions.assertTrue(opt.isPresent());
+
+		User user = opt.get();
+
+		Social social = user.getSocial();
+		Assertions.assertNull(social);
+
+		social = socialService.create(
+				user,
+				SocialTestCreateData.facebook,
+				SocialTestCreateData.line,
+				SocialTestCreateData.instagram,
+				SocialTestCreateData.tiktok
+		);
+
+		Assertions.assertNotNull(social);
+		Assertions.assertEquals(SocialTestCreateData.facebook, social.getFacebook());
+	}
+
+
+	@Order(4)
 	@Test
 	void testDelete() {
 		Optional<User> opt = userService.findByEmail(TestCreateData.email);
