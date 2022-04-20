@@ -1,14 +1,11 @@
 package com.iamnsrt.training.backend.service;
 
 import com.iamnsrt.training.backend.entity.Address;
-import com.iamnsrt.training.backend.entity.Social;
 import com.iamnsrt.training.backend.entity.User;
 import com.iamnsrt.training.backend.repository.AddressRepository;
-import com.iamnsrt.training.backend.repository.SocialRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 
 @Service

@@ -1,16 +1,17 @@
-
-
 package com.iamnsrt.training.backend.entity;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @EqualsAndHashCode(callSuper = true)
 @Data
 @Entity(name = "m_address")
-public class Address extends BaseEntity{
+public class Address extends BaseEntity {
 
     @Column(length = 120)
     private String line1;
@@ -24,4 +25,5 @@ public class Address extends BaseEntity{
     @ManyToOne
     @JoinColumn(name = "m_user_id", nullable = false)
     private User user;
+
 }

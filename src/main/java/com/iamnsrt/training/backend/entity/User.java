@@ -24,6 +24,6 @@ public class User extends BaseEntity{
     @OneToOne(mappedBy = "user", orphanRemoval = true)
     private Social social;
 
-    @OneToMany(mappedBy = "user",orphanRemoval = true, fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> addresses;
 }
