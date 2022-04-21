@@ -1,12 +1,10 @@
 package com.iamnsrt.training.backend.api;
 
 import com.iamnsrt.training.backend.business.UserBusiness;
-import com.iamnsrt.training.backend.entity.User;
 import com.iamnsrt.training.backend.exception.BaseException;
 import com.iamnsrt.training.backend.model.LoginRequest;
 import com.iamnsrt.training.backend.model.RegisterRequest;
 import com.iamnsrt.training.backend.model.RegisterResponse;
-import com.iamnsrt.training.backend.model.TestResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -14,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 @RestController
 @RequestMapping("/user")
 public class UserApi {
+
     private final UserBusiness business;
 
     public UserApi(UserBusiness business) {
@@ -33,12 +32,12 @@ public class UserApi {
     }
 
     @GetMapping("/refresh-token")
-    public  ResponseEntity<String> refreshToken() throws BaseException{
+    public ResponseEntity<String> refreshToken() throws BaseException {
         String response = business.refreshToken();
         return ResponseEntity.ok(response);
     }
 
-    @PostMapping
+    @PostMapping("/upload-profile")
     public ResponseEntity<String> uploadProfilePicture(@RequestPart MultipartFile file) throws BaseException {
         String response = business.uploadProfilePicture(file);
         return ResponseEntity.ok(response);

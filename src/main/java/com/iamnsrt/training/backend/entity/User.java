@@ -26,4 +26,5 @@ public class User extends BaseEntity{
 
     @OneToMany(mappedBy = "user",orphanRemoval = true, fetch = FetchType.EAGER)
     private List<Address> addresses;
+
 }

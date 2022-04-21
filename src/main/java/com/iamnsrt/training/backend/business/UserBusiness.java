@@ -11,9 +11,6 @@ import com.iamnsrt.training.backend.model.RegisterResponse;
 import com.iamnsrt.training.backend.service.TokenService;
 import com.iamnsrt.training.backend.service.UserService;
 import com.iamnsrt.training.backend.util.SecurityUtil;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -37,17 +34,16 @@ public class UserBusiness {
         this.userMapper = userMapper;
     }
 
-    public String login(LoginRequest request) throws BaseException{
-        //validate request
+    public String login(LoginRequest request) throws BaseException {
+        // validate request
 
-        //verify database
-        Optional<User> otp = userService.findByEmail(request.getEmail());
-
-        if (otp.isEmpty()) {
+        // verify database
+        Optional<User> opt = userService.findByEmail(request.getEmail());
+        if (opt.isEmpty()) {
             throw UserException.loginFailEmailNotFound();
         }
 
-        User user = otp.get();
+        User user = opt.get();
         if (!userService.matchPassword(request.getPassword(), user.getPassword())) {
             throw UserException.loginFailPasswordIncorrect();
         }
@@ -64,7 +60,7 @@ public class UserBusiness {
         String userId = opt.get();
 
         Optional<User> optUser = userService.findById(userId);
-        if (opt.isEmpty()) {
+        if (optUser.isEmpty()) {
             throw UserException.notFound();
         }
 
@@ -78,35 +74,36 @@ public class UserBusiness {
         return userMapper.toRegisterResponse(user);
     }
 
-    public String uploadProfilePicture(MultipartFile file) throws BaseException{
-        //validate file
+    public String uploadProfilePicture(MultipartFile file) throws BaseException {
+        // validate file
         if (file == null) {
-            //throw error
-            FileException.fileNull();
+            // throw error
+            throw FileException.fileNull();
         }
 
-        if (file.getSize() > 1048576 * 2 ) {
-            //throw error
-            FileException.fileMaxSize();
+        // validate size
+        if (file.getSize() > 1048576 * 2) {
+            // throw error
+            throw FileException.fileMaxSize();
         }
 
         String contentType = file.getContentType();
         if (contentType == null) {
-            //throw error
-            FileException.unsupported();
+            // throw error
+            throw FileException.unsupported();
         }
 
-        List<String> supportedTypes = Arrays.asList("image/jpag", "image/png");
+        List<String> supportedTypes = Arrays.asList("image/jpeg", "image/png");
         if (!supportedTypes.contains(contentType)) {
-            //throw error
-            FileException.unsupported();
+            // throw error (unsupport)
+            throw FileException.unsupported();
         }
 
-        //TODO: upload file File Storage (AWS S3, etc...)
+        // TODO: upload file File Storage (AWS S3, etc...)
         try {
             byte[] bytes = file.getBytes();
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            e.printStackTrace();
         }
 
         return "";

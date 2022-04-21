@@ -63,6 +63,5 @@ public class TokenFilter extends GenericFilterBean {
 
         filterChain.doFilter(servletRequest, servletResponse);
     }
-
 }
 
