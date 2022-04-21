@@ -25,5 +25,4 @@ public class Social extends BaseEntity{
     @OneToOne
     @JoinColumn(name = "m_user_id", nullable = false)
     private User user;
-
 }

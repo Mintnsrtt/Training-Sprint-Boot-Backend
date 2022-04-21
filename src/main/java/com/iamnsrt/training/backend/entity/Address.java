@@ -1,5 +1,3 @@
-
-
 package com.iamnsrt.training.backend.entity;
 
 import lombok.Data;
