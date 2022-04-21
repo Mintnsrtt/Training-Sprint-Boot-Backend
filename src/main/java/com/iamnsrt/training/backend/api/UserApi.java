@@ -1,10 +1,12 @@
 package com.iamnsrt.training.backend.api;
 
 import com.iamnsrt.training.backend.business.UserBusiness;
+import com.iamnsrt.training.backend.entity.User;
 import com.iamnsrt.training.backend.exception.BaseException;
 import com.iamnsrt.training.backend.model.LoginRequest;
 import com.iamnsrt.training.backend.model.RegisterRequest;
 import com.iamnsrt.training.backend.model.RegisterResponse;
+import com.iamnsrt.training.backend.model.TestResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -42,3 +44,4 @@ public class UserApi {
         return ResponseEntity.ok(response);
     }
 }
+
