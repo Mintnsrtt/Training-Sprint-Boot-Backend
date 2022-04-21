@@ -1,5 +1,6 @@
 package com.iamnsrt.training.backend.config;
 
+import com.iamnsrt.training.backend.service.TokenService;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -8,11 +9,16 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import com.iamnsrt.training.backend.config.token.TokenFilterConfiguerer;
 
 @EnableWebSecurity
-
-
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private final TokenService tokenService;
+
+    public SecurityConfig(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -22,7 +28,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         super.configure(auth);
-        //TODO:
+        // TODO:
     }
 
     @Override
@@ -30,6 +36,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.cors().disable().csrf().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and().authorizeRequests().antMatchers("/user/register", "/user/login").anonymous()
-                .anyRequest().authenticated();
+                .anyRequest().authenticated()
+                .and().apply(new TokenFilterConfiguerer(tokenService));
     }
 }
